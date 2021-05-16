@@ -1,0 +1,27 @@
+name: Private-Proxy
+
+on:
+    workflow_dispatch:
+        defaults:
+            run:
+                shell: bash
+        inputs:
+            token:
+                description: 'Enter your ngrok token'
+                required: true
+
+jobs:
+    Private-Proxy-Setup:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Update System
+              run: bash update-system.sh
+            - name: Setup Proxy
+              run: bash setup-proxy.sh
+            - name: Setup Ngrok
+              run: bash setup-ngrok.sh
+              env:
+                TOKEN: ${{github.event.inputs.token}}
+            - name: Your Proxy Address and Port
+              run: bash proxy-address.sh
